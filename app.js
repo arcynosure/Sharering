@@ -3,11 +3,19 @@ var express = require('express');
 var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
+var mongoose = require('mongoose');
 
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
 
 var app = express();
+
+//Mongoose
+mongoose.Promise = global.Promise;
+mongoose.set('useCreateIndex', true);
+mongoose.connect('mongodb://localhost/ShareDB', {useNewUrlParser : true})
+  .then(()=> console.log("Connection estd"));
+
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -38,4 +46,8 @@ app.use(function(err, req, res, next) {
   res.render('error');
 });
 
+
+app.listen('8888',()=>{
+  console.log('Running on 8888')
+});
 module.exports = app;
