@@ -3,8 +3,8 @@ var router = express.Router();
 const BnbApiClient = require('@binance-chain/javascript-sdk');
 const WAValidator = require('wallet-address-validator');
 const ShareRing = require('../models/model');
-const axios = require('axios');
 const Web3 = require('web3');
+var {Parser} = require('json2csv');
 
 const web3 = new Web3(
   new Web3.providers.HttpProvider(
@@ -110,9 +110,17 @@ router.get('/step2', async(req,res) => {
 });
 
 
-
-
-
+router.get('/export',function(req,res){
+  ShareRing.find({state:'success'},function(err,data){
+    if(err) console.log(err);
+    let fields = ['bnbAddress','ethAddress','amount'];
+    let fieldNames=['bnbAddress','ethAddress','amounts'];
+    const json2csv = new Parser({ fields: fields, fieldNames: fieldNames });
+    const csv = json2csv.parse(data);
+    res.attachment('filename.csv');
+    res.status(200).send(csv);
+  })
+})
 
 
 function validateBNBAddress(address) {
