@@ -112,12 +112,20 @@ router.get('/step2', async(req,res) => {
 router.get('/export',function(req,res){
   ShareRing.find({state:'success'},function(err,data){
     if(err) console.log(err);
+    if(data.length==0){
+      res.send({
+        status:false,
+        message:'No completed transaction to export'
+      })
+    }
+    else{
     let fields = ['bnbAddress','ethAddress','amount'];
     let fieldNames=['bnbAddress','ethAddress','amounts'];
     const json2csv = new Parser({ fields: fields, fieldNames: fieldNames });
     const csv = json2csv.parse(data);
     res.attachment('filename.csv');
     res.status(200).send(csv);
+    }
   })
 })
 
