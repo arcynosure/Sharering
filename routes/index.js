@@ -75,13 +75,12 @@ router.get('/viewdata',(req,res)=>{
 
 
 
-
 router.get('/step2', async(req,res) => {
   const status = await web3.eth.getTransaction(req.body.txhash)
   console.log(status);
   // console.log(`0x${status.input.substr(34,40)}`+'   '+parseInt(`0x${status.input.substr(74,64)}`)/100);
 
-  if(`0x${status.input.substr(34,40)}`=='0xe79eef9b9388a4ff70ed7ec5bccd5b928ebb8bd1')
+  if(`0x${status.input.substr(34,40)}`=='0x24baAB8dbDDc534657f2f118f31c251714872021')
   {
     console.log('in');
   ShareRing.findOne({ethAddress:status.from.toLowerCase(),amount:parseInt(`0x${status.input.substr(74,64)}`)/100},function(err,data){
