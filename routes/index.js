@@ -14,7 +14,7 @@ const web3 = new Web3(
 
 
 /* GET home page. */
-router.get('/step1', function(req, res) {
+router.post('/step1', function(req, res) {
   if(validateBNBAddress(req.body.bnbaddress)){
     if(validateETHAddress(req.body.ethaddress)){
       if(validateAmount(req.body.amount)){
@@ -75,7 +75,7 @@ router.get('/viewdata',(req,res)=>{
 
 
 
-router.get('/step2', async(req,res) => {
+router.post('/step2', async(req,res) => {
   const status = await web3.eth.getTransaction(req.body.txhash)
   console.log(status);
   // console.log(`0x${status.input.substr(34,40)}`+'   '+parseInt(`0x${status.input.substr(74,64)}`)/100);
