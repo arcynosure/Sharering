@@ -22,7 +22,7 @@ router.post('/step1', function(req, res) {
         let sharering = new ShareRing({
           bnbAddress:body.bnbaddress,
           ethAddress:body.ethaddress,
-          amount:parseInt(body.amount)
+          amount:parseFloat(body.amount)
         });
         sharering.save(function(err,data){
           if(err){
