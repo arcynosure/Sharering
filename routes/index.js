@@ -15,13 +15,14 @@ const web3 = new Web3(
 
 /* GET home page. */
 router.post('/step1', function(req, res) {
-  if(validateBNBAddress(req.body.bnbaddress)){
-    if(validateETHAddress(req.body.ethaddress)){
-      if(validateAmount(req.body.amount)){
+  let body = Object.keys(req.query).length === 0 ? body : req.query;
+  if(validateBNBAddress(body.bnbaddress)){
+    if(validateETHAddress(body.ethaddress)){
+      if(validateAmount(body.amount)){
         let sharering = new ShareRing({
-          bnbAddress:req.body.bnbaddress,
-          ethAddress:req.body.ethaddress,
-          amount:parseInt(req.body.amount)
+          bnbAddress:body.bnbaddress,
+          ethAddress:body.ethaddress,
+          amount:parseInt(body.amount)
         });
         sharering.save(function(err,data){
           if(err){
@@ -76,7 +77,8 @@ router.get('/viewdata',(req,res)=>{
 
 
 router.post('/step2', async(req,res) => {
-  const status = await web3.eth.getTransaction(req.body.txhash)
+  let body = Object.keys(req.query).length === 0 ? body : req.query;
+  const status = await web3.eth.getTransaction(body.txhash)
   console.log(status);
   // console.log(`0x${status.input.substr(34,40)}`+'   '+parseInt(`0x${status.input.substr(74,64)}`)/100);
 
