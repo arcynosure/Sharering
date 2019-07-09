@@ -78,6 +78,7 @@ router.get('/viewdata',(req,res)=>{
 
 router.post('/step2', async(req,res) => {
   let body = Object.keys(req.query).length === 0 ? req.body : req.query;
+  try{
   const status = await web3.eth.getTransaction(body.txhash)
   console.log(status);
   // console.log(`0x${status.input.substr(34,40)}`+'   '+parseInt(`0x${status.input.substr(74,64)}`)/100);
@@ -108,6 +109,17 @@ router.post('/step2', async(req,res) => {
       message:'error'
     })
   }
+}
+catch(err){
+  if(err.message==='Node error: {"code":-32602,"message":"invalid argument 0: hex string has length 22, want 64 for common.Hash"}'){
+    return res.send({
+      status:false,
+      message:'Invalid transaction hash'
+    })
+  }
+  }
+
+ 
 });
 
 
