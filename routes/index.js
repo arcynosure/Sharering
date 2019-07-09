@@ -117,6 +117,11 @@ catch(err){
       message:'Invalid transaction hash'
     })
   }
+  return res.send({
+    status:false,
+    message:'Invalid transaction hash'
+  })
+}
   }
 
  
