@@ -86,7 +86,7 @@ router.post('/step2', async(req,res) => {
   const checkAddress = '0x24baAB8dbDDc534657f2f118f31c251714872021';
   if(inputAddress.toUpperCase()==checkAddress.toUpperCase())
   {
-  
+  console.log('in');
   ShareRing.findOne({ethAddress:status.from.toLowerCase(),amount:parseInt(`0x${status.input.substr(74,64)}`)/100},function(err,data){
 
     if(err) console.log(err);
