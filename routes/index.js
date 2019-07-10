@@ -15,13 +15,15 @@ const web3 = new Web3(
 
 /* GET home page. */
 router.post('/step1', function(req, res) {
-  let body = Object.keys(req.query).length === 0 ? req.body : req.query;;
+  let body = Object.keys(req.query).length === 0 ? req.body : req.query;
+  const bnb = body.bnbaddress.toLowerCase();
+  const eth = body.ethaddress.toLowerCase();
   if(validateBNBAddress(body.bnbaddress)){
     if(validateETHAddress(body.ethaddress)){
       if(validateAmount(body.amount)){
         let sharering = new ShareRing({
-          bnbAddress:body.bnbaddress,
-          ethAddress:body.ethaddress,
+          bnbAddress:bnb,
+          ethAddress:eth,
           amount:parseFloat(body.amount)
         });
         sharering.save(function(err,data){
