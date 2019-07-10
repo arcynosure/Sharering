@@ -99,7 +99,12 @@ router.post('/step2', async(req,res) => {
         message:'Error in fetching data based on transaction hash'
       })
     }
-    else{
+    if(data==null){
+      return res.send({
+        status:false,
+        message:'Error in fetching data based on transaction hash'
+      })
+    }
     console.log(data);
     ShareRing.updateOne({_id:data._id},{state:'success'},function(err,data){
       if(err) console.log(err);
@@ -111,13 +116,8 @@ router.post('/step2', async(req,res) => {
         })
       }
     })
-  }
-  if(data==null){
-    return res.send({
-      status:false,
-      message:'Error in fetching data based on transaction hash'
-    })
-  }
+  
+  
   });
 }
 
