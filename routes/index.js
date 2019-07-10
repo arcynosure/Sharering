@@ -78,7 +78,7 @@ router.get('/viewdata',(req,res)=>{
 
 router.post('/step2', async(req,res) => {
   let body = Object.keys(req.query).length === 0 ? req.body : req.query;
-  console.log(body.txhash);
+  console.log(status);
   try{
   const status = await web3.eth.getTransaction(body.txhash);
   // console.log(`0x${status.input.substr(34,40)}`+'   '+parseInt(`0x${status.input.substr(74,64)}`)/100);
@@ -87,7 +87,8 @@ router.post('/step2', async(req,res) => {
   if(inputAddress.toUpperCase()==checkAddress.toUpperCase())
   {
   console.log('in');
-  ShareRing.findOne({ethAddress:status.from.toLowerCase(),amount:parseInt(`0x${status.input.substr(74,64)}`)/100},function(err,data){
+  console.log(status.from.toLowerCase());
+  ShareRing.findOne({ethAddress:status.from.toLowerCase(),amount:parseInt(status.input.substr(74,64))/100},function(err,data){
 
     if(err){
       return res.send({
@@ -96,6 +97,7 @@ router.post('/step2', async(req,res) => {
       })
     }
     else{
+    console.log(data);
     ShareRing.updateOne({_id:data._id},{state:'success'},function(err,data){
       if(err) console.log(err);
       console.log(data);
