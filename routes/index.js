@@ -16,14 +16,14 @@ const web3 = new Web3(
 /* GET home page. */
 router.post('/step1', function(req, res) {
   let body = Object.keys(req.query).length === 0 ? req.body : req.query;
-  const bnb = body.bnbaddress.toLowerCase();
-  const eth = body.ethaddress.toLowerCase();
+  const bnb = body.bnbaddress;
+  const eth = body.ethaddress;
   if(validateBNBAddress(body.bnbaddress)){
     if(validateETHAddress(body.ethaddress)){
       if(validateAmount(body.amount)){
         let sharering = new ShareRing({
-          bnbAddress:bnb,
-          ethAddress:eth,
+          bnbAddress:bnb.toLowerCase(),
+          ethAddress:eth.toLowerCase(),
           amount:parseFloat(body.amount)
         });
         sharering.save(function(err,data){
@@ -110,6 +110,12 @@ router.post('/step2', async(req,res) => {
           message:'success'
         })
       }
+    })
+  }
+  if(data==null){
+    return res.send({
+      status:false,
+      message:'Error in fetching data based on transaction hash'
     })
   }
   });
