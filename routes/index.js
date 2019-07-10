@@ -89,7 +89,13 @@ router.post('/step2', async(req,res) => {
   console.log('in');
   ShareRing.findOne({ethAddress:status.from.toLowerCase(),amount:parseInt(`0x${status.input.substr(74,64)}`)/100},function(err,data){
 
-    if(err) console.log(err);
+    if(err){
+      return res.send({
+        status:false,
+        message:'Error in fetching data based on transaction hash'
+      })
+    }
+    else{
     ShareRing.updateOne({_id:data._id},{state:'success'},function(err,data){
       if(err) console.log(err);
       console.log(data);
@@ -100,6 +106,7 @@ router.post('/step2', async(req,res) => {
         })
       }
     })
+  }
   });
 }
 
