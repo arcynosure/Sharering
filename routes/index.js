@@ -155,8 +155,8 @@ router.get('/export',function(req,res){
       })
     }
     else{
-    let fields = ['bnbAddress','ethAddress','amount'];
-    let fieldNames=['bnbAddress','ethAddress','amounts'];
+    let fields = ['bnbAddress','ethAddress','amount','updateTime'];
+    let fieldNames=['bnbAddress','ethAddress','amounts','time'];
     const json2csv = new Parser({ fields: fields, fieldNames: fieldNames });
     const csv = json2csv.parse(data);
     res.attachment('filename.csv');
