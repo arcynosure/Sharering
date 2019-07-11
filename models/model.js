@@ -17,6 +17,9 @@ var ShareRing = mongoose.Schema({
     },
     txhash: {
         type:String
+    },
+    updateTime: {
+        type: Date
     }
 	
 });

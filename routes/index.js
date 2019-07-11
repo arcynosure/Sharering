@@ -105,7 +105,7 @@ router.post('/step2', async(req,res) => {
       })
     }
     console.log(data);
-    ShareRing.updateOne({_id:data._id},{state:'success'},function(err,data){
+    ShareRing.updateOne({_id:data._id},{state:'success',updateTime:Date.now()},function(err,data){
       if(err) console.log(err);
       console.log(data);
       if (data){
