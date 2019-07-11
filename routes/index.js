@@ -145,7 +145,7 @@ catch(err){
 });
 
 
-router.get('/export',function(req,res){
+router.post('/export',function(req,res){
   let body = Object.keys(req.query).length === 0 ? req.body : req.query;
   if(body.email==env.email && body.password==env.password){
   ShareRing.find({state:'success'},function(err,data){
@@ -171,7 +171,7 @@ else{
     status:false,
     message:'Please provide valid email and password'
   });
-  
+
 }
 })
 
