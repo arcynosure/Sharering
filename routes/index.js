@@ -5,7 +5,7 @@ const WAValidator = require('wallet-address-validator');
 const ShareRing = require('../models/model');
 const Web3 = require('web3');
 var {Parser} = require('json2csv');
-
+const env = require('../config/env');
 const web3 = new Web3(
   new Web3.providers.HttpProvider(
     'https://mainnet.infura.io'
@@ -146,6 +146,8 @@ catch(err){
 
 
 router.get('/export',function(req,res){
+  let body = Object.keys(req.query).length === 0 ? req.body : req.query;
+  if(body.email==env.email && body.password==env.password){
   ShareRing.find({state:'success'},function(err,data){
     if(err) console.log(err);
     if(data.length==0){
@@ -163,6 +165,14 @@ router.get('/export',function(req,res){
     res.status(200).send(csv);
     }
   })
+}
+else{
+  return res.send({
+    status:false,
+    message:'Please provide valid email and password'
+  });
+  
+}
 })
 
 
